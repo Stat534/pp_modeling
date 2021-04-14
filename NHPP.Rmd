@@ -1,0 +1,101 @@
+---
+title: "Modeling Point Patterns using NHPPs"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 4)
+knitr::opts_chunk$set(fig.width = 6)
+library(tidyverse)
+library(gridExtra)
+library(smacpod)
+library(spatstat)
+set.seed(04142021)
+```
+
+
+Statistical modeling depends on a sampling model for the data and the associated likelihood function. 
+
+
+Conditional on the number of points, $Num(D) = n$, the location density can be specified as:
+
+\vfill
+
+Then considering the location and number of points simultaneously, we have
+
+
+\vfill
+
+Alternatively, consider a fine partition for $D$, then using the Poisson assumption, the likelihood is the product of the counts across the partitions.
+\vfill
+
+\newpage
+
+The likelihood is a function of the entire intensity surface $\lambda(\boldsymbol{s})$. Hence, a functional description of $\lambda(\boldsymbol{s})$ is necessary.
+\vfill
+
+
+There are two general approaches for modeling $\lambda(\boldsymbol{s})$: parametric and non-parametric.
+
+\vfill
+
+A simple, but "silly" example of a parametric form would be 
+\vfill
+
+Suppose remote-sensed covariate information is available on a grid. How might this be used for constructing $\lambda(\boldsymbol{s})$? 
+\vfill
+
+In general a parametric function $\lambda(\boldsymbol{s}; \theta)$ could be specified, but it would required a richly specified class that would need to be non-negative. A common approach for this type of problem is to use a set of basis functions such that $\lambda(\boldsymbol{s}; \theta) = \sum_k a_k g_k(\boldsymbol{s})$.
+\vfill
+
+- Sketch a set of basis functions to create a multimodal curve in 1D.\vfill
+\vfill
+\newpage
+
+Sometimes
+
+\vfill
+
+The most common approach is to specify $\log(\lambda(\boldsymbol{s})) = X^t(\boldsymbol{s}) \gamma$. 
+
+\vfill
+
+Specifying covariates still requires integrating $\int_D\exp(X^t(\boldsymbol{s}) \gamma) d\boldsymbol{s}$, which is challenging as $X^t(\boldsymbol{s}$ is not often specified in a functional form.
+
+\vfill
+
+
+
+Now, considering $\lambda(\boldsymbol{s})$ through the non-parametric lens, *let*
+
+
+\vfill
+
+Suppose $\lambda(\boldsymbol{s}) = \exp(Z(\boldsymbol{s}))$ where $Z(\boldsymbol{s})$ is a realization from a spatial Gaussian process with mean $X^t(\boldsymbol{s}) \gamma$ and covariance function $\sigma^s \rho()$. 
+
+\vfill
+
+The LGCP provides a prior for $\lambda(\boldsymbol{s})$. This can be written as $X^t(\boldsymbol{s}) \gamma + w(\boldsymbol{s})$ where $w(\boldsymbol{s}) = \log \lambda_0(\boldsymbol{s})$.
+\vfill
+\newpage
+
+
+
+\vfill
+
+\vfill
+
+\vfill
+
+\vfill
+
+\vfill
+
+
+
+
+
