@@ -1,0 +1,129 @@
+---
+title: "Modeling Point Processes with Spatstat"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(fig.align= 'center')
+knitr::opts_chunk$set(fig.height= 4)
+knitr::opts_chunk$set(fig.width = 6)
+library(tidyverse)
+library(gridExtra)
+library(ggplot2)
+library(smacpod)
+library(spatstat)
+set.seed(04082019)
+```
+
+
+### Model Fitting
+
+The `ppm` function can be used for model fitting with a point process.
+
+\vfill
+
+```{r}
+plot(bei)
+```
+
+\vfill
+
+
+
+\vfill
+```{r}
+plot(density.ppp(bei))
+```
+\vfill
+
+\newpage
+
+
+
+\vfill
+```{r}
+elev <- bei.extra$elev
+grad <- bei.extra$grad
+plot(elev)
+plot(grad)
+```
+
+\newpage
+
+The `ppm` function allows model fitting
+\vfill
+```{r}
+tree.model <- ppm(bei ~ elev + grad);
+tree.model
+plot(tree.model)
+```
+\vfill
+
+For more complicated models, `kppm` can be used for clustering behavior.
+
+\vfill
+
+### Marked Point Patterns
+\vfill
+
+\vfill
+
+
+\vfill
+
+The `lansing` data set contains locations of six types of trees.
+```{r, fig.width=7, fig.height = 5}
+plot(lansing, cols = 1:6)
+```
+
+```{r, fig.width=7, fig.height = 5}
+plot(split(lansing))
+```
+
+\newpage
+
+To analyze this data, consider the following model.
+\vfill
+```{r}
+lansing.model <- ppm(lansing ~  marks - 1)
+lansing.model
+```
+
+\vfill
+
+In contrast with this model, we can also include 
+
+```{r}
+lansing.model2 <- ppm(lansing ~  marks * polynom(x,y,3))
+#lansing.model2
+plot(lansing.model2)
+```
+\vfill
+
+
+\vfill
+
+\vfill
+
+
+\newpage
+
+### More advanced point pattern models
+
+##### Cluster processes
+Clustering is not well defined. In general the idea is that the point distances are shorter than expected. However, there "is a fundamental ambiguity between heterogeneity and clustering" (Diggle 2007).
+\vfill
+
+
+\vfill
+\vfill
+\vfill
+
+
+\vfill
+
+\vfill
+
