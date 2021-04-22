@@ -1,0 +1,67 @@
+---
+title: "LGCP Demo"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(spatstat)
+set.seed(04222021)
+```
+
+#### Simulate and visualize LGCP
+
+```{r}
+m <- as.im(function(x, y){2 + 3*x + 3*y - 3* x^2}, W=owin())
+X <- rLGCP("exp", m, var=0.1, scale =0.25)
+plot(attr(X, "Lambda"), main = '')
+points(X, col = rgb(0,0,0,.4), pch =16)
+```
+
+#### Fit LGCP
+
+Note the plotting function separates the mean intensity and the error structure from the GP
+
+```{r}
+fitX <- kppm(X ~ x, "LGCP")
+fitX
+plot(fitX, what = 'intensity')
+
+fitXY <- kppm(X ~ x + y, "LGCP")
+fitXY
+plot(fitXY, what = 'intensity')
+
+fitX2Y <- kppm(X ~ polynom(x,2) + y , "LGCP")
+fitX2Y
+plot(fitX2Y, what = 'intensity')
+
+```
+
+#### BEI Dataset
+
+Here is a KDE estimate of the surface intensity
+```{r}
+plot(density(bei))
+points(bei, col = rgb(0,0,0,.1), pch =16)
+```
+
+### interaction with elevation and gradient
+```{r}
+fitBei <- ppm(bei ~ elev * grad , data=bei.extra)
+fitBei
+plot(fitBei, what = 'intensity')
+```
+
+### LGCP fit (kind of...)
+```{r}
+fitBei2 <- kppm(bei ~ elev * grad , "LGCP", data=bei.extra)
+fitBei2
+plot(fitBei2, what = 'intensity')
+```
+
+More comprehensive model fitting, may require approximate methods, and in particular Inverse Nested Laplace Approximations (INLA). See the following R packages for more details:
+
+- `INLA`
+- `inlabru`
+- `lgcp`
+
